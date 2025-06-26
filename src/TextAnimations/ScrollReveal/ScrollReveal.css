@@ -1,0 +1,24 @@
+/*
+	Installed from https://reactbits.dev/default/
+*/
+
+.scroll-reveal {
+  margin: 20px 0;
+}
+
+.scroll-reveal-text {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  line-height: 1.5;
+  font-weight: 100;
+  font-size: 24px;
+}
+
+.word {
+  display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+  .scroll-reveal-text {
+    font-size: 1rem;
+  }
+}
