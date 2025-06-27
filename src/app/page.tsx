@@ -5,11 +5,12 @@ import Image from "next/image";
 import TextPressure from '../TextAnimations/TextPressure/TextPressure';
 import ScrollReveal from '../TextAnimations/ScrollReveal/ScrollReveal';
 import ScrollFloat from '../TextAnimations/ScrollFloat/ScrollFloat';
-import ChromaGrid from '../Components/ChromaGrid/ChromaGrid';
+import TiltedCard from '../Components/TiltedCard/TiltedCard';
 import Link from "next/link";
 import Lenis from "@studio-freight/lenis";
 
 export default function Home() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("about");
@@ -31,26 +32,6 @@ export default function Home() {
     };
   }, []);
 
-  const stackItems = [
-    {
-      image: "./stack/html.svg",
-      title: "Sarah Johnson",
-      subtitle: "Frontend Developer",
-      handle: "@sarahjohnson",
-      borderColor: "#3B82F6",
-      gradient: "linear-gradient(145deg, #3B82F6, #000)",
-      url: "https://github.com/sarahjohnson"
-    },
-    {
-      image: "./stack/css.svg",
-      title: "Mike Chen",
-      subtitle: "Backend Engineer",
-      handle: "@mikechen",
-      borderColor: "#10B981",
-      gradient: "linear-gradient(180deg, #10B981, #000)",
-      url: "https://linkedin.com/in/mikechen"
-    }
-  ];
 
   // Scroll progress bar logic
   useEffect(() => {
@@ -111,7 +92,7 @@ export default function Home() {
       ([entry]) => {
         setTimelineVisible(entry.isIntersecting);
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 }
     );
     if (timelineContainerRef.current) {
       observer.observe(timelineContainerRef.current);
@@ -124,7 +105,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="scroll-smooth bg-black">
+    <div className="scroll-smooth bg-black" ref={scrollContainerRef}>
       <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full">
         <TextPressure
           text="Frontend"
@@ -151,7 +132,7 @@ export default function Home() {
           minFontSize={36}
         />
       </div>
-      <div className="sticky top-0 py-4 z-50 flex flex-row bg-black px-8 lg:px-36 relative" id="navbar" style={{ position: "sticky", top: 0 }}>
+      <div className="top-0 py-4 z-50 flex flex-row bg-black px-8 lg:px-36 relative" id="navbar" style={{ position: "sticky", top: 0 }}>
         <Link
           href={"#about"}
           className={`mx-2 px-3 py-1 rounded transition-colors duration-300 ${activeSection === "about" ? "text-white" : "text-gray-400"
@@ -190,7 +171,7 @@ export default function Home() {
       </div>
 
       <div className="flex py-96 flex-col md:flex-row align-middle justify-center px-4 min-h-screen min-w-full" id="about">
-        <div className="lg:pl-50 flex flex-col md:w-6xl" ref={containerRef}>
+        <div className="lg:pl-50 flex flex-col md:w-6xl lg:w-6xl mx-4" ref={containerRef}>
           <ScrollFloat
             animationDuration={1}
             ease='back.inOut(2)'
@@ -205,8 +186,8 @@ export default function Home() {
             enableBlur={true}
             baseRotation={0}
             blurStrength={10}
+            textClassName=""
             containerClassName="lg:w-[80%] md:w-[100%]"
-            textClassName="text-sm"
           >
             I'm a front-end developer with a passion for building clean, responsive, and interactive web experiences. I enjoy turning ideas into polished interfaces, whether it's a landing page, a dynamic portfolio, or a full-featured web app. My workflow often includes crafting custom components, fine-tuning animations, and optimizing for performance across devices. When I’m not coding, you’ll find me creating 3D digital art, stargazing, or exploring the intersection of design and technology. Let’s build something amazing together.
           </ScrollReveal>
@@ -273,14 +254,7 @@ export default function Home() {
       </div>
       <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="stack">
         <h1>Stack</h1>
-        <div style={{ height: '600px', position: 'relative' }}>
-          <ChromaGrid
-            items={stackItems}
-            radius={300}
-            damping={0.45}
-            fadeOut={0.6}
-            ease="power3.out"
-          />
+        <div>
         </div>
       </div>
       <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="projects">
