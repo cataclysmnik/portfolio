@@ -8,6 +8,7 @@ import ScrollFloat from '../TextAnimations/ScrollFloat/ScrollFloat';
 import FlowingMenu from "../Components/FlowingMenu/FlowingMenu";
 import Link from "next/link";
 import Lenis from "@studio-freight/lenis";
+import SpotlightCard from "@/Components/SpotlightCard/SpotlightCard";
 
 export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -38,6 +39,7 @@ export default function Home() {
     { link: '#', text: 'Javascript', image: './stack/js.svg' },
     { link: '#', text: 'Typescript', image: './stack/ts.svg' },
     { link: '#', text: 'ReactJS', image: './stack/react.svg' },
+    { link: '#', text: 'React Native', image: './stack/rn.svg' },
     { link: '#', text: 'Tailwind', image: './stack/tailwind.svg' },
     { link: '#', text: 'Bootstrap', image: './stack/bootstrap.svg' },
     { link: '#', text: 'GSAP', image: './stack/gsap-black.svg' },
@@ -185,7 +187,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex md:py-96 py-10 flex-col md:flex-row align-middle justify-center px-4 min-h-screen min-w-full" id="about">
+      <div className="flex md:py-48 py-10 flex-col md:flex-row align-middle justify-center px-4 min-w-full" id="about">
         <div className="lg:pl-50 flex flex-col md:w-6xl lg:w-6xl mx-4" ref={containerRef}>
           <ScrollFloat
             animationDuration={1}
@@ -267,7 +269,7 @@ export default function Home() {
           </ol>
         </div>
       </div>
-      <div className="flex py-10 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="stack">
+      <div className="flex py-10 md:pb-16 flex-col px-4 min-w-full" id="stack">
         <ScrollFloat
           animationDuration={1}
           ease='back.inOut(2)'
@@ -285,8 +287,77 @@ export default function Home() {
         <div>
         </div>
       </div>
-      <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="projects">
-        <h1 className="text-7xl font-semibold mb-10">Projects</h1>
+      <div className="flex py-10 md:pb-16 flex-col px-4 min-w-full" id="projects">
+        <ScrollFloat
+          animationDuration={1}
+          ease='back.inOut(2)'
+          scrollStart='center bottom+=50%'
+          scrollEnd='bottom bottom-=40%'
+          stagger={0.03}
+        >
+          Projects
+        </ScrollFloat>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full mt-8">
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
+            <div>
+              <h1 className="font-semibold text-2xl">Planora</h1>
+              <p>An AI based travel itinerary planner.</p>
+              <div className="mt-4">
+                <span className="bg-white text-gray-800 p-1 mr-1">nextJS</span>
+                <span className="bg-white text-gray-800 p-1 mr-1">react</span>
+                <span className="bg-white text-gray-800 p-1 mr-1">typescript</span>
+                <span className="bg-white text-gray-800 p-1 mr-1">tailwindCSS</span>
+              </div>
+              <div className="mt-4">
+                <Link target="blank" href={"https://github.com/cataclysmnik/planora"}><span className="mr-4 underline text-gray-300 transition-colors duration-300 hover:text-white">Github</span></Link>
+                {/* <Link target="blank" href={"https://lightworks.vercel.app/"}><span className="underline text-gray-300 transition-colors duration-300 hover:text-white">Live View</span></Link> */}
+              </div>
+            </div>
+          </SpotlightCard>
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
+            <div>
+              <h1 className="font-semibold text-2xl">Theta</h1>
+              <p>A weather app for Android.</p>
+              <div className="mt-4">
+                <span className="bg-white text-gray-800 p-1 mr-1">react native</span>
+                <span className="bg-white text-gray-800 p-1 mr-1">typescript</span>
+              </div>
+              <div className="mt-4">
+                <Link target="blank" href={"https://github.com/cataclysmnik/thetaweather-mobile"}><span className="mr-4 underline text-gray-300 transition-colors duration-300 hover:text-white">Github</span></Link>
+                {/* <Link target="blank" href={"https://lightworks.vercel.app/"}><span className="underline text-gray-300 transition-colors duration-300 hover:text-white">Live View</span></Link> */}
+              </div>
+            </div>
+          </SpotlightCard>
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
+            <div>
+              <h1 className="font-semibold text-2xl">Retrofy</h1>
+              <p>A retro image editor for Windows.</p>
+              <div className="mt-4">
+                <span className="bg-white text-gray-800 p-1 mr-1">python</span>
+              </div>
+              <div className="mt-4">
+                <Link target="blank" href={"https://github.com/cataclysmnik/retrofy"}><span className="mr-4 underline text-gray-300 transition-colors duration-300 hover:text-white">Github</span></Link>
+                {/* <Link target="blank" href={"https://lightworks.vercel.app/"}><span className="underline text-gray-300 transition-colors duration-300 hover:text-white">Live View</span></Link> */}
+              </div>
+            </div>
+          </SpotlightCard>
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
+            <div>
+              <h1 className="font-semibold text-2xl">Lightworks</h1>
+              <p>My photography portfolio.</p>
+              <div className="mt-4">
+                <span className="bg-white text-gray-800 p-1 mr-1">html</span>
+                <span className="bg-white text-gray-800 p-1 mr-1">css</span>
+                <span className="bg-white text-gray-800 p-1 mr-1">javascript</span>
+                <span className="bg-white text-gray-800 p-1 mr-1">gsap</span>
+              </div>
+              <div className="mt-4">
+                <Link target="blank" href={"https://github.com/cataclysmnik/lightworks"}><span className="mr-4 underline text-gray-300 transition-colors duration-300 hover:text-white">Github</span></Link>
+                <Link target="blank" href={"https://lightworks.vercel.app/"}><span className="underline text-gray-300 transition-colors duration-300 hover:text-white">Live View</span></Link>
+              </div>
+            </div>
+          </SpotlightCard>
+        </div>
       </div>
       <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="contact">
         <h1>Contact</h1>
