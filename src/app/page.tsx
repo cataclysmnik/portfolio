@@ -5,7 +5,7 @@ import Image from "next/image";
 import TextPressure from '../TextAnimations/TextPressure/TextPressure';
 import ScrollReveal from '../TextAnimations/ScrollReveal/ScrollReveal';
 import ScrollFloat from '../TextAnimations/ScrollFloat/ScrollFloat';
-import TiltedCard from '../Components/TiltedCard/TiltedCard';
+import FlowingMenu from "../Components/FlowingMenu/FlowingMenu";
 import Link from "next/link";
 import Lenis from "@studio-freight/lenis";
 
@@ -32,6 +32,21 @@ export default function Home() {
     };
   }, []);
 
+  const demoItems = [
+    { link: '#', text: 'HTML', image: './stack/html.svg' },
+    { link: '#', text: 'CSS', image: './stack/css.svg' },
+    { link: '#', text: 'Javascript', image: './stack/js.svg' },
+    { link: '#', text: 'Typescript', image: './stack/ts.svg' },
+    { link: '#', text: 'ReactJS', image: './stack/react.svg' },
+    { link: '#', text: 'Tailwind', image: './stack/tailwind.svg' },
+    { link: '#', text: 'Bootstrap', image: './stack/bootstrap.svg' },
+    { link: '#', text: 'GSAP', image: './stack/gsap-black.svg' },
+    { link: '#', text: 'nextJS', image: './stack/next.svg' },
+    { link: '#', text: 'Git', image: './stack/git.svg' },
+    { link: '#', text: 'C', image: './stack/c.svg' },
+    { link: '#', text: 'C++', image: './stack/cpp.svg' },
+    { link: '#', text: 'Python', image: './stack/python.svg' },
+  ];
 
   // Scroll progress bar logic
   useEffect(() => {
@@ -170,7 +185,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex py-96 flex-col md:flex-row align-middle justify-center px-4 min-h-screen min-w-full" id="about">
+      <div className="flex md:py-96 py-10 flex-col md:flex-row align-middle justify-center px-4 min-h-screen min-w-full" id="about">
         <div className="lg:pl-50 flex flex-col md:w-6xl lg:w-6xl mx-4" ref={containerRef}>
           <ScrollFloat
             animationDuration={1}
@@ -252,8 +267,13 @@ export default function Home() {
           </ol>
         </div>
       </div>
-      <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="stack">
-        <h1>Stack</h1>
+      <div className="flex py-10 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="stack">
+        <h1 className="text-7xl font-semibold">Tech Stack</h1>
+        <div>
+          <div style={{ height: '800px', position: 'relative' }}>
+            <FlowingMenu items={demoItems} />
+          </div>
+        </div>
         <div>
         </div>
       </div>
