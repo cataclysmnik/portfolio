@@ -268,7 +268,15 @@ export default function Home() {
         </div>
       </div>
       <div className="flex py-10 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="stack">
-        <h1 className="text-7xl font-semibold">Tech Stack</h1>
+        <ScrollFloat
+          animationDuration={1}
+          ease='back.inOut(2)'
+          scrollStart='center bottom+=50%'
+          scrollEnd='bottom bottom-=40%'
+          stagger={0.03}
+        >
+          Tech Stack
+        </ScrollFloat>
         <div>
           <div style={{ height: '800px', position: 'relative' }}>
             <FlowingMenu items={demoItems} />
@@ -278,7 +286,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="projects">
-        <h1>Projects</h1>
+        <h1 className="text-7xl font-semibold mb-10">Projects</h1>
       </div>
       <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="contact">
         <h1>Contact</h1>
