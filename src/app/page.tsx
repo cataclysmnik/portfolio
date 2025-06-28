@@ -241,7 +241,11 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Custom cursor logic
+  // Tooltip state for cursor
+  const [cursorTooltip, setCursorTooltip] = useState<string | null>(null);
+  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+
+  // Custom cursor logic with tooltip
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -250,17 +254,31 @@ export default function Home() {
 
     const moveCursor = (e: MouseEvent) => {
       cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      setCursorPos({ x: e.clientX, y: e.clientY });
     };
 
     const handleMouseOver = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest("a,button,[role=button]")) {
+      const el = (e.target as HTMLElement).closest("a,button,[role=button]");
+      if (el) {
         cursor.classList.add("ring");
+        // Tooltip logic for socials
+        if (el instanceof HTMLAnchorElement) {
+          if (el.href.includes("github.com")) setCursorTooltip("GitHub");
+          else if (el.href.includes("linkedin.com")) setCursorTooltip("LinkedIn");
+          else if (el.href.includes("instagram.com")) setCursorTooltip("Instagram");
+          else if (el.href.startsWith("mailto:")) setCursorTooltip("Email");
+          else setCursorTooltip(null);
+        } else {
+          setCursorTooltip(null);
+        }
       }
     };
 
     const handleMouseOut = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest("a,button,[role=button]")) {
+      const el = (e.target as HTMLElement).closest("a,button,[role=button]");
+      if (el) {
         cursor.classList.remove("ring");
+        setCursorTooltip(null);
       }
     };
 
@@ -275,8 +293,35 @@ export default function Home() {
     };
   }, []);
 
+  // Smooth scroll for navbar links
+  useEffect(() => {
+    const handleNavClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === "A" && target.getAttribute("href")?.startsWith("#")) {
+        const href = target.getAttribute("href")!;
+        const id = href.slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          e.preventDefault();
+          // Adjust offset if you have a sticky navbar (change 80 if needed)
+          const y = el.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }
+    };
+    const navbar = document.getElementById("navbar");
+    if (navbar) {
+      navbar.addEventListener("click", handleNavClick);
+    }
+    return () => {
+      if (navbar) {
+        navbar.removeEventListener("click", handleNavClick);
+      }
+    };
+  }, []);
+
   return (
-    <div className="scroll-smooth bg-black cursor-none" ref={scrollContainerRef}>
+    <div className="bg-black cursor-none" ref={scrollContainerRef}>
       {/* Custom Cursor */}
       <div
         ref={cursorRef}
@@ -287,6 +332,23 @@ export default function Home() {
           mixBlendMode: "difference",
         }}
       />
+      {/* Floating Tooltip */}
+      {cursorTooltip && (
+        <div
+          className="fixed z-[10000] px-3 py-1 bg-white text-black text-xs font-semibold pointer-events-none transition-all duration-150"
+          style={{
+            left: cursorPos.x + 18,
+            top: cursorPos.y + 18,
+            transform: "translateY(-50%)",
+            whiteSpace: "nowrap",
+            boxShadow: "0 2px 8px 0 #0002",
+            userSelect: "none",
+            pointerEvents: "none",
+          }}
+        >
+          {cursorTooltip}
+        </div>
+      )}
       <style>{`
         .ring {
           box-shadow:
@@ -306,27 +368,12 @@ export default function Home() {
           aria-hidden="true"
         >
           <polyline
-            id="hero-arrow"
             points="15,15 50,35 85,15"
             fill="none"
             stroke="#111"
             strokeWidth="2"
             strokeLinejoin="miter"
             strokeLinecap="butt"
-            style={{
-              strokeDasharray: 120,
-              strokeDashoffset: 120,
-              transition: "stroke 0.5s",
-            }}
-          />
-          <animate
-            xlinkHref="#hero-arrow"
-            attributeName="stroke-dashoffset"
-            from="120"
-            to="0"
-            dur="1.2s"
-            fill="freeze"
-            begin="0.2s"
           />
         </svg>
         <TextPressure
@@ -577,35 +624,33 @@ export default function Home() {
         <div className="h-80 relative">
           {/* Toast */}
           <div
-            className={`fixed left-1/2 bottom-16 z-50 px-6 py-3 rounded-lg bg-white/90 text-black font-semibold shadow-lg pointer-events-none transition-all duration-500
+            className={`fixed left-1/2 bottom-16 z-50 px-6 py-3 bg-white text-black font-semibold shadow-lg pointer-events-none transition-all duration-500
               ${showToast ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"}`}
             style={{ transform: "translateX(-50%)" }}
           >
             Email copied!
           </div>
-          {/* Placeholder text on top of Silk background */}
           <div
             ref={socialsContainerRef}
-            className={`absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none p-16 transition-opacity duration-700 ${socialsVisible ? "opacity-100" : "opacity-0"}`}
+            className={`absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none p-32 transition-opacity duration-700 ${socialsVisible ? "opacity-100" : "opacity-0"}`}
           >
-            <h2 className="text-3xl font-bold text-white mb-2">Let's Connect!</h2>
             <div className="flex flex-row items-center justify-center gap-6 pointer-events-auto mb-4">
-              <div ref={githubRef}>
+              <div ref={githubRef} className="transition-transform duration-200 hover:scale-110">
                 <Link target="_blank" href="https://github.com/cataclysmnik" aria-label="Github">
                   <Image src="./connect/github.svg" width={50} height={50} alt="Github" />
                 </Link>
               </div>
-              <div ref={linkedinRef}>
+              <div ref={linkedinRef} className="transition-transform duration-200 hover:scale-110">
                 <Link target="_blank" href="https://linkedin.com/in/sagnik-singha-vit/" aria-label="LinkedIn">
                   <Image src="./connect/linkedin.svg" width={50} height={50} alt="LinkedIn" />
                 </Link>
               </div>
-              <div ref={instagramRef}>
+              <div ref={instagramRef} className="transition-transform duration-200 hover:scale-110">
                 <Link target="_blank" href="https://instagram.com/_.lightworks._" aria-label="Instagram">
                   <Image src="./connect/instagram.svg" width={50} height={50} alt="Instagram" />
                 </Link>
               </div>
-              <div ref={mailRef}>
+              <div ref={mailRef} className="transition-transform duration-200 hover:scale-110">
                 <Link target="_blank" href="mailto:sagnik.singha@outlook.com" aria-label="Email">
                   <Image src="./connect/mail2.svg" width={50} height={50} alt="Email" />
                 </Link>
