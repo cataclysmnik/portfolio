@@ -9,6 +9,8 @@ import FlowingMenu from "../Components/FlowingMenu/FlowingMenu";
 import Link from "next/link";
 import Lenis from "@studio-freight/lenis";
 import SpotlightCard from "@/Components/SpotlightCard/SpotlightCard";
+import Silk from "@/Backgrounds/Silk/Silk";
+import { animate } from "animejs";
 
 export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -120,6 +122,112 @@ export default function Home() {
       }
     };
   }, []);
+
+  // Refs for social icons
+  const githubRef = useRef<HTMLDivElement>(null);
+  const linkedinRef = useRef<HTMLDivElement>(null);
+  const mailRef = useRef<HTMLDivElement>(null);
+  const instagramRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Animate in on mount using the Web Animations API
+    const icons = [githubRef, linkedinRef, mailRef, instagramRef];
+    icons.forEach((ref, i) => {
+      if (ref.current) {
+        ref.current.animate(
+          [
+            { opacity: 0, transform: "translateY(40px) scale(0.7)" },
+            { opacity: 1, transform: "translateY(0px) scale(1)" }
+          ],
+          {
+            duration: 900,
+            delay: i * 120,
+            easing: "cubic-bezier(.23,1.32,.57,1)",
+            fill: "forwards"
+          }
+        );
+      }
+    });
+
+    // Add hover effect using the Web Animations API
+    icons.forEach((ref) => {
+      const el = ref.current;
+      if (!el) return;
+      let hoverAnimation: Animation | null = null;
+
+      const onEnter = () => {
+        hoverAnimation?.cancel();
+        hoverAnimation = el.animate(
+          [
+            { transform: "scale(1)" },
+            { transform: `scale(1.18)` }
+          ],
+          {
+            duration: 350,
+            easing: "cubic-bezier(.23,1.32,.57,1)",
+            fill: "forwards"
+          }
+        );
+      };
+
+      const onLeave = () => {
+        hoverAnimation?.cancel();
+        hoverAnimation = el.animate(
+          [
+            { transform: el.style.transform || "scale(1.18) rotate(0deg)" },
+            { transform: "scale(1) rotate(0deg)" }
+          ],
+          {
+            duration: 350,
+            easing: "cubic-bezier(.23,1.32,.57,1)",
+            fill: "forwards"
+          }
+        );
+      };
+
+      el.addEventListener("mouseenter", onEnter);
+      el.addEventListener("mouseleave", onLeave);
+
+      // Cleanup listeners on unmount
+      return () => {
+        el.removeEventListener("mouseenter", onEnter);
+        el.removeEventListener("mouseleave", onLeave);
+      };
+    });
+  }, []);
+
+  // Socials fade-in/out logic
+  const socialsContainerRef = useRef<HTMLDivElement>(null);
+  const [socialsVisible, setSocialsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        setSocialsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    if (socialsContainerRef.current) {
+      observer.observe(socialsContainerRef.current);
+    }
+    return () => {
+      if (socialsContainerRef.current) {
+        observer.unobserve(socialsContainerRef.current);
+      }
+    };
+  }, []);
+
+  // Toast state for email copy
+  const [showToast, setShowToast] = useState(false);
+
+  // Email copy handler
+  const handleEmailClick = () => {
+    const email = "sagnik.singha@outlook.com";
+    navigator.clipboard.writeText(email).then(() => {
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 1800);
+    });
+  };
 
   return (
     <div className="scroll-smooth bg-black" ref={scrollContainerRef}>
@@ -300,7 +408,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full mt-8">
           <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
             <div>
-              <h1 className="font-semibold text-2xl">Planora</h1>
+              <h1 className="font-semibold text-lg md:text-2xl">Planora</h1>
               <p>An AI based travel itinerary planner.</p>
               <div className="mt-4">
                 <span className="bg-white text-gray-800 p-1 mr-1">nextJS</span>
@@ -316,7 +424,7 @@ export default function Home() {
           </SpotlightCard>
           <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
             <div>
-              <h1 className="font-semibold text-2xl">Theta</h1>
+              <h1 className="font-semibold text-lg md:text-2xl">Theta</h1>
               <p>A weather app for Android.</p>
               <div className="mt-4">
                 <span className="bg-white text-gray-800 p-1 mr-1">react native</span>
@@ -330,7 +438,7 @@ export default function Home() {
           </SpotlightCard>
           <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
             <div>
-              <h1 className="font-semibold text-2xl">Retrofy</h1>
+              <h1 className="font-semibold text-lg md:text-2xl">Retrofy</h1>
               <p>A retro image editor for Windows.</p>
               <div className="mt-4">
                 <span className="bg-white text-gray-800 p-1 mr-1">python</span>
@@ -343,7 +451,7 @@ export default function Home() {
           </SpotlightCard>
           <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
             <div>
-              <h1 className="font-semibold text-2xl">Lightworks</h1>
+              <h1 className="font-semibold text-lg md:text-2xl">Lightworks</h1>
               <p>My photography portfolio.</p>
               <div className="mt-4">
                 <span className="bg-white text-gray-800 p-1 mr-1">html</span>
@@ -359,8 +467,70 @@ export default function Home() {
           </SpotlightCard>
         </div>
       </div>
-      <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full" id="contact">
-        <h1>Contact</h1>
+      <div className="md:py-0 md:pb-16 flex-col px-4 min-w-full" id="contact">
+        <ScrollFloat
+          animationDuration={1}
+          ease='back.inOut(2)'
+          scrollStart='center bottom+=50%'
+          scrollEnd='bottom bottom-=40%'
+          stagger={0.03}
+        >
+          Contact Me
+        </ScrollFloat>
+        <div className="h-80 relative">
+          {/* Toast */}
+          <div
+            className={`fixed left-1/2 bottom-16 z-50 px-6 py-3 rounded-lg bg-white/90 text-black font-semibold shadow-lg pointer-events-none transition-all duration-500
+              ${showToast ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"}`}
+            style={{ transform: "translateX(-50%)" }}
+          >
+            Email copied!
+          </div>
+          {/* Placeholder text on top of Silk background */}
+          <div
+            ref={socialsContainerRef}
+            className={`absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none p-16 transition-opacity duration-700 ${socialsVisible ? "opacity-100" : "opacity-0"}`}
+          >
+            <h2 className="text-3xl font-bold text-white mb-2">Let's Connect!</h2>
+            <div className="flex flex-row items-center justify-center gap-6 pointer-events-auto mb-4">
+              <div ref={githubRef}>
+                <Link target="_blank" href="https://github.com/cataclysmnik" aria-label="Github">
+                  <Image src="./connect/github.svg" width={50} height={50} alt="Github" />
+                </Link>
+              </div>
+              <div ref={linkedinRef}>
+                <Link target="_blank" href="https://linkedin.com/in/sagnik-singha-vit/" aria-label="LinkedIn">
+                  <Image src="./connect/linkedin.svg" width={50} height={50} alt="LinkedIn" />
+                </Link>
+              </div>
+              <div ref={instagramRef}>
+                <Link target="_blank" href="https://instagram.com/_.lightworks._" aria-label="Instagram">
+                  <Image src="./connect/instagram.svg" width={50} height={50} alt="Instagram" />
+                </Link>
+              </div>
+              <div ref={mailRef}>
+                <Link target="_blank" href="mailto:sagnik.singha@outlook.com" aria-label="Email">
+                  <Image src="./connect/mail2.svg" width={50} height={50} alt="Email" />
+                </Link>
+              </div>
+            </div>
+            <button
+              onClick={handleEmailClick}
+              className="text-lg text-gray-200 hover:text-white underline pointer-events-auto transition-colors duration-300"
+              style={{ outline: "none" }}
+              aria-label="Copy email to clipboard"
+            >
+              sagnik.singha@outlook.com
+            </button>
+          </div>
+          <Silk
+            speed={5}
+            scale={1}
+            color="#333333"
+            noiseIntensity={1.5}
+            rotation={0}
+          />
+        </div>
       </div>
     </div>
   );
