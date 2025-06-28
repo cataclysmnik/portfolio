@@ -10,7 +10,6 @@ import Link from "next/link";
 import Lenis from "@studio-freight/lenis";
 import SpotlightCard from "@/Components/SpotlightCard/SpotlightCard";
 import Silk from "@/Backgrounds/Silk/Silk";
-import { animate } from "animejs";
 
 export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -36,20 +35,20 @@ export default function Home() {
   }, []);
 
   const demoItems = [
-    { link: '#', text: 'HTML', image: './stack/html.svg' },
-    { link: '#', text: 'CSS', image: './stack/css.svg' },
-    { link: '#', text: 'Javascript', image: './stack/js.svg' },
-    { link: '#', text: 'Typescript', image: './stack/ts.svg' },
-    { link: '#', text: 'ReactJS', image: './stack/react.svg' },
-    { link: '#', text: 'React Native', image: './stack/rn.svg' },
-    { link: '#', text: 'Tailwind', image: './stack/tailwind.svg' },
-    { link: '#', text: 'Bootstrap', image: './stack/bootstrap.svg' },
-    { link: '#', text: 'GSAP', image: './stack/gsap-black.svg' },
-    { link: '#', text: 'nextJS', image: './stack/next.svg' },
-    { link: '#', text: 'Git', image: './stack/git.svg' },
-    { link: '#', text: 'C', image: './stack/c.svg' },
-    { link: '#', text: 'C++', image: './stack/cpp.svg' },
-    { link: '#', text: 'Python', image: './stack/python.svg' },
+    { link: 'https://en.wikipedia.org/wiki/HTML', text: 'HTML', image: './stack/html.svg' },
+    { link: 'https://en.wikipedia.org/wiki/CSS', text: 'CSS', image: './stack/css.svg' },
+    { link: 'https://en.wikipedia.org/wiki/JavaScript', text: 'Javascript', image: './stack/js.svg' },
+    { link: 'https://www.typescriptlang.org/', text: 'Typescript', image: './stack/ts.svg' },
+    { link: 'https://react.dev/', text: 'ReactJS', image: './stack/react.svg' },
+    { link: 'https://reactnative.dev/', text: 'React Native', image: './stack/rn.svg' },
+    { link: 'https://tailwindcss.com/', text: 'Tailwind', image: './stack/tailwind.svg' },
+    { link: 'https://getbootstrap.com/', text: 'Bootstrap', image: './stack/bootstrap.svg' },
+    { link: 'https://gsap.com/', text: 'GSAP', image: './stack/gsap-black.svg' },
+    { link: 'https://nextjs.org/', text: 'nextJS', image: './stack/next.svg' },
+    { link: 'https://git-scm.com/', text: 'Git', image: './stack/git.svg' },
+    { link: 'https://www.c-language.org/', text: 'C', image: './stack/c.svg' },
+    { link: 'https://isocpp.org/', text: 'C++', image: './stack/cpp.svg' },
+    { link: 'https://www.python.org/', text: 'Python', image: './stack/python.svg' },
   ];
 
   // Scroll progress bar logic
@@ -242,8 +241,61 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Custom cursor logic
+  const cursorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    const moveCursor = (e: MouseEvent) => {
+      cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest("a,button,[role=button]")) {
+        cursor.classList.add("ring");
+      }
+    };
+
+    const handleMouseOut = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest("a,button,[role=button]")) {
+        cursor.classList.remove("ring");
+      }
+    };
+
+    document.addEventListener("mousemove", moveCursor);
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
+
+    return () => {
+      document.removeEventListener("mousemove", moveCursor);
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
+    };
+  }, []);
+
   return (
-    <div className="scroll-smooth bg-black" ref={scrollContainerRef}>
+    <div className="scroll-smooth bg-black cursor-none" ref={scrollContainerRef}>
+      {/* Custom Cursor */}
+      <div
+        ref={cursorRef}
+        className="fixed top-0 left-0 z-[9999] pointer-events-none w-3 h-3 rounded-full bg-white transition-all duration-200"
+        style={{
+          transform: "translate3d(-100px, -100px, 0)",
+          transition: "box-shadow 0.2s, background 0.2s, border 0.2s",
+          mixBlendMode: "difference",
+        }}
+      />
+      <style>{`
+        .ring {
+          box-shadow:
+            0 0 0 0px #fff,
+            0 0 0 8px #fff,
+            0 0 16px 8px #fff6;
+          background: #fff;
+        }
+      `}</style>
       <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full relative">
         {/* Responsive SVG arrow as background, subtle gray, sharp corners, animated */}
         <svg
