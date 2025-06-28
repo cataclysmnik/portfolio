@@ -229,9 +229,54 @@ export default function Home() {
     });
   };
 
+  // Arrow fade-in/out logic
+  const arrowRef = useRef<SVGSVGElement>(null);
+  const [arrowVisible, setArrowVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Hide arrow after user scrolls down 100px
+      setArrowVisible(window.scrollY < 100);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="scroll-smooth bg-black" ref={scrollContainerRef}>
-      <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full">
+      <div className="flex py-96 md:py-0 md:pb-16 flex-col px-4 min-h-screen min-w-full relative">
+        {/* Responsive SVG arrow as background, subtle gray, sharp corners, animated */}
+        <svg
+          ref={arrowRef}
+          className={`absolute z-0 pointer-events-none w-full h-24 bottom-24 md:bottom-0 left-0 md:inset-0 md:h-full transition-opacity duration-700 ${arrowVisible ? "opacity-100" : "opacity-0"}`}
+          viewBox="0 0 100 40"
+          preserveAspectRatio="xMidYMin meet"
+          aria-hidden="true"
+        >
+          <polyline
+            id="hero-arrow"
+            points="15,15 50,35 85,15"
+            fill="none"
+            stroke="#111"
+            strokeWidth="2"
+            strokeLinejoin="miter"
+            strokeLinecap="butt"
+            style={{
+              strokeDasharray: 120,
+              strokeDashoffset: 120,
+              transition: "stroke 0.5s",
+            }}
+          />
+          <animate
+            xlinkHref="#hero-arrow"
+            attributeName="stroke-dashoffset"
+            from="120"
+            to="0"
+            dur="1.2s"
+            fill="freeze"
+            begin="0.2s"
+          />
+        </svg>
         <TextPressure
           text="Frontend"
           flex={true}
