@@ -322,20 +322,20 @@ export default function Home() {
 
   return (
     <div className="bg-black cursor-none" ref={scrollContainerRef}>
-      {/* Custom Cursor */}
+      {/* Custom Cursor - hidden on mobile */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 z-[9999] pointer-events-none w-3 h-3 rounded-full bg-white transition-all duration-200"
+        className="fixed top-0 left-0 z-[9999] pointer-events-none w-3 h-3 rounded-full bg-white transition-all duration-200 hidden sm:block"
         style={{
           transform: "translate3d(-100px, -100px, 0)",
           transition: "box-shadow 0.2s, background 0.2s, border 0.2s",
           mixBlendMode: "difference",
         }}
       />
-      {/* Floating Tooltip */}
+      {/* Floating Tooltip - hidden on mobile */}
       {cursorTooltip && (
         <div
-          className="fixed z-[10000] px-3 py-1 bg-white text-black text-xs font-semibold pointer-events-none transition-all duration-150"
+          className="fixed z-[10000] px-3 py-1 bg-white text-black text-xs font-semibold pointer-events-none transition-all duration-150 hidden sm:block"
           style={{
             left: cursorPos.x + 18,
             top: cursorPos.y + 18,
@@ -637,22 +637,22 @@ export default function Home() {
             <div className="flex flex-row items-center justify-center gap-6 pointer-events-auto mb-4">
               <div ref={githubRef} className="transition-transform duration-200 hover:scale-110">
                 <Link target="_blank" href="https://github.com/cataclysmnik" aria-label="Github">
-                  <Image src="./connect/github.svg" width={50} height={50} alt="Github" />
+                  <Image src="./connect/github.svg" width={150} height={150} className="md:h-[50px] md:w-[50px]" alt="Github" />
                 </Link>
               </div>
               <div ref={linkedinRef} className="transition-transform duration-200 hover:scale-110">
                 <Link target="_blank" href="https://linkedin.com/in/sagnik-singha-vit/" aria-label="LinkedIn">
-                  <Image src="./connect/linkedin.svg" width={50} height={50} alt="LinkedIn" />
+                  <Image src="./connect/linkedin.svg" width={150} height={150} className="md:h-[50px] md:w-[50px]" alt="LinkedIn" />
                 </Link>
               </div>
               <div ref={instagramRef} className="transition-transform duration-200 hover:scale-110">
                 <Link target="_blank" href="https://instagram.com/_.lightworks._" aria-label="Instagram">
-                  <Image src="./connect/instagram.svg" width={50} height={50} alt="Instagram" />
+                  <Image src="./connect/instagram.svg" width={150} height={150} className="md:h-[50px] md:w-[50px]" alt="Instagram" />
                 </Link>
               </div>
               <div ref={mailRef} className="transition-transform duration-200 hover:scale-110">
                 <Link target="_blank" href="mailto:sagnik.singha@outlook.com" aria-label="Email">
-                  <Image src="./connect/mail2.svg" width={50} height={50} alt="Email" />
+                  <Image src="./connect/mail2.svg" width={150} height={150} className="md:h-[50px] md:w-[50px]" alt="Email" />
                 </Link>
               </div>
             </div>
