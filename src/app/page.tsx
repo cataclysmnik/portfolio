@@ -7,7 +7,7 @@ import ScrollReveal from '../TextAnimations/ScrollReveal/ScrollReveal';
 import ScrollFloat from '../TextAnimations/ScrollFloat/ScrollFloat';
 import FlowingMenu from "../Components/FlowingMenu/FlowingMenu";
 import Link from "next/link";
-import Lenis from "@studio-freight/lenis";
+import Lenis from "lenis";
 import SpotlightCard from "@/Components/SpotlightCard/SpotlightCard";
 import Silk from "@/Backgrounds/Silk/Silk";
 
@@ -458,7 +458,7 @@ export default function Home() {
             textClassName=""
             containerClassName="lg:w-[80%] md:w-[100%]"
           >
-            I'm a front-end developer with a passion for building clean, responsive, and interactive web experiences. I enjoy turning ideas into polished interfaces, whether it's a landing page, a dynamic portfolio, or a full-featured web app. My workflow often includes crafting custom components, fine-tuning animations, and optimizing for performance across devices. When I’m not coding, you’ll find me creating 3D digital art, stargazing, or exploring the intersection of design and technology. Let’s build something amazing together.
+            I&apos;m a front-end developer with a passion for building clean, responsive, and interactive web experiences. I enjoy turning ideas into polished interfaces, whether it&apos;s a landing page, a dynamic portfolio, or a full-featured web app. My workflow often includes crafting custom components, fine-tuning animations, and optimizing for performance across devices. When I&apos;m not coding, you&apos;ll find me creating 3D digital art, stargazing, or exploring the intersection of design and technology. Let&apos;s build something amazing together.
           </ScrollReveal>
         </div>
         {/* Timeline */}
